@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import './App.css';
 import MovieList from "./components/MovieList"
 import MovieDetail from "./components/MovieDetail"
 import MovieForm from "./components/MovieForm"
+import { TokenContext } from "./index"
 
 function App() {
+
+  const { token, setToken } = useContext(TokenContext)
+
+  useEffect(() => {
+    console.log("APP TOKEN:", token)
+  }, [token])
+
 
   const [movies, setMovies] = useState(["Movie 1", "Movie 2"])
   const [selectedMovie, setSelectedMovie] = useState(null)
@@ -41,15 +49,54 @@ function App() {
     setSelectedMovie(null)
   }
 
+  const updateMovie = movie => {
+    const newMovies = movies.map(mov => {
+      if (mov.id === movie.id) {
+        return movie
+      }
+      return mov
+    })
+    setMovies(newMovies)
+  }
+
+  const newMovie = () => {
+    setEditedMovie({ title: '', description: '' })
+    console.log("new Move")
+  }
+
+  const movieCreated = (movie) => {
+    const newMovies = [...movies, movie]
+    setMovies(newMovies)
+  }
+
+  const removeClicked = (movie) => {
+    const newMovies = movies.filter(mov => {
+      if (mov.id === movie.id) {
+        return false
+      }
+      return true
+    })
+    setMovies(newMovies)
+  }
   return (
     <div className="App">
       <header className="App-header">
         <h1>Movie Rater</h1>
       </header>
       <div className='layout'>
-        <MovieList movies={movies} movieClicked={movieClicked} editClicked={editClicked} />
+        <div>
+          <MovieList
+            movies={movies}
+            movieClicked={movieClicked}
+            editClicked={editClicked}
+            removeClicked={removeClicked} />
+          <button onClick={newMovie}>New Movie</button>
+        </div>
         <MovieDetail movie={selectedMovie} updateMovie={movieClicked} />
-        {editedMovie ? <MovieForm movie={editedMovie} /> : null}
+        {editedMovie ? <MovieForm movie={editedMovie} updateMovie={updateMovie}
+          movieCreated={movieCreated}
+        /> : null}
+
       </div>
     </div>
   );

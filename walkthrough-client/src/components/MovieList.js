@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { API } from "../Api-Service"
+
 
 const MovieList = (props) => {
 
@@ -10,10 +12,20 @@ const MovieList = (props) => {
   }
 
   const editClicked = (movie) => {
-
     props.editClicked(movie)
   }
 
+  const removeClicked = (movie) => {
+    props.removeClicked(movie)
+    console.log(movie.id)
+    API.deleteMovie(movie.id)
+      .then((response) => {
+        console.log(`'${movie.title}' DELETED`)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   return (
     <div>
@@ -23,7 +35,7 @@ const MovieList = (props) => {
             <h2 className='title' onClick={movieClicked(movie)}>{movie.title}</h2>
             <div>
               <FontAwesomeIcon icon={faEdit} onClick={() => editClicked(movie)} />
-              <FontAwesomeIcon icon={faTrash} />
+              <FontAwesomeIcon icon={faTrash} onClick={() => removeClicked(movie)} />
             </div>
           </div>
         )
