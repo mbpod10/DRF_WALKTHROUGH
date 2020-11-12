@@ -23,7 +23,7 @@ class Movie(models.Model):
             return 0
 
     def __str__(self):
-        return self.title
+        return self.title + " " + str(self.id)
 
 
 class Rating(models.Model):
@@ -37,4 +37,4 @@ class Rating(models.Model):
         index_together = (('user', 'movie'),)
 
     def __str__(self):
-        return self.movie.title + " (" + str(self.stars) + ")"
+        return self.movie.title + " (" + str(self.stars) + ") " + self.user.username

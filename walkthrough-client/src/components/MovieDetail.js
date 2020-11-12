@@ -1,6 +1,3 @@
-# Star Rating and Highlighting
-
-```js
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -84,25 +81,3 @@ const MovieDetail = (props) => {
 }
 
 export default MovieDetail
-```
-
-```css
-.orange{
-  color:orange
-}
-
-.rate-container{
-  margin-top: 20px;
-  border-top: 2px solid purple;
-}
-
-.purple{
-  color: purple;
-}
-
-.rate-container .fa-star{
-  font-size: 1.8rem;
-  cursor: pointer;
-}
-
-```
