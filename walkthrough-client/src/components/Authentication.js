@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { API } from "../Api-Service"
 import { TokenContext } from "../index"
+import { useCookies } from 'react-cookie'
 
 const Authentication = () => {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState('')
 
-  const { token, setToken } = useContext(TokenContext)
+  const [token, setToken] = useCookies(['mr-token'])
 
   useEffect(() => {
     console.log(token)
-    if (token) window.location.href = "/movies"
+    // if (token) window.location.href = "/movies"
   }, [token])
 
   const loginClicked = (event) => {
@@ -19,7 +20,7 @@ const Authentication = () => {
     API.loginClicked({ username: username, password: password })
       .then((response) => {
         // console.log(response.data.token)
-        setToken(response.data.token)
+        setToken('mr-token', response.data.token)
       })
       .catch((error) => {
         console.log(error)

@@ -5,6 +5,7 @@ import App from './App';
 import Authentication from "./components/Authentication"
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie'
 
 export const TokenContext = createContext(null)
 
@@ -15,12 +16,12 @@ const Router = () => {
   return (
 
     <React.StrictMode>
-      <TokenContext.Provider value={{ token, setToken }}>
+      <CookiesProvider>
         <BrowserRouter>
           <Route exact path="/" component={Authentication} />
           <Route path="/movies" component={App} />
         </BrowserRouter>
-      </TokenContext.Provider>
+      </CookiesProvider>
     </React.StrictMode>
 
   )
