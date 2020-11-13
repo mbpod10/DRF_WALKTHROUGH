@@ -2,18 +2,25 @@ import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios"
+import { useCookies } from 'react-cookie'
+
 
 const MovieDetail = (props) => {
 
   let mov = props.movie
+  const [token] = useCookies(['mr-token'])
+
+  useEffect(() => {
+    console.log(token)
+  }, [token])
 
   const headers = {
     'Content-Type': 'application/json',
-    'Authorization': 'Token 18fa4b9ef0c796afe146aee11f382dd2f642144f'
+    'Authorization': `Token ${token['mr-token']}`
   }
 
   const [highlighted, setHighlighted] = useState(-1)
-  // const [movie, setMovie] = useState(props.movie)
+
 
   const highlightRate = (high) => event => {
     setHighlighted(high)

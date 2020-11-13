@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -7,14 +7,9 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie'
 
-export const TokenContext = createContext(null)
-
 const Router = () => {
 
-  const [token, setToken] = useState('')
-
   return (
-
     <React.StrictMode>
       <CookiesProvider>
         <BrowserRouter>
@@ -23,10 +18,8 @@ const Router = () => {
         </BrowserRouter>
       </CookiesProvider>
     </React.StrictMode>
-
   )
 }
-
 ReactDOM.render(<Router />, document.getElementById('root')
 );
 

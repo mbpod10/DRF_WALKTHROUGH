@@ -1,34 +1,53 @@
 import axios from "axios"
-
-const TOKEN = "18fa4b9ef0c796afe146aee11f382dd2f642144f"
-const headers = {
-  'Content-Type': 'application/json',
-  'Authorization': `Token ${TOKEN}`
-}
-const loginHeaders = {
-  'Content-Type': 'application/json',
-  // 'Authorization': `Token ${TOKEN}`
-}
+import apiUrl from "./APIConfig"
 
 export class API {
-  static updateMovie(mov_id, body) {
-    return axios.put(`http://127.0.0.1:8000/api/movies/${mov_id}/`,
+  static updateMovie(mov_id, body, TOKEN) {
+    return axios.put(`${apiUrl}/api/movies/${mov_id}/`,
       body,
-      { headers: headers })
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${TOKEN}`
+        }
+      })
   }
-  static createMovie(body) {
-    return axios.post(`http://127.0.0.1:8000/api/movies/`,
+  static createMovie(body, TOKEN) {
+    return axios.post(`${apiUrl}/api/movies/`,
       body,
-      { headers: headers })
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${TOKEN}`
+        }
+      })
   }
-  static deleteMovie(mov_id) {
-    return axios.delete(`http://127.0.0.1:8000/api/movies/${mov_id}`,
-      { headers: headers })
+  static deleteMovie(mov_id, TOKEN) {
+    return axios.delete(`${apiUrl}/api/movies/${mov_id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${TOKEN}`
+        }
+      })
   }
   static loginClicked(body) {
-    return axios.post(`http://127.0.0.1:8000/auth/`,
+    return axios.post(`${apiUrl}/auth/`,
       body,
-      { headers: loginHeaders })
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+  }
+  static registerClicked(body) {
+    return axios.post(`${apiUrl}/api/users/`,
+      body,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
   }
 }
 

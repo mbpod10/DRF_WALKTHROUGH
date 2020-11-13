@@ -1,32 +1,38 @@
 import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import './App.css';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+
 import MovieList from "./components/MovieList"
 import MovieDetail from "./components/MovieDetail"
 import MovieForm from "./components/MovieForm"
-import { TokenContext } from "./index"
+import { useCookies } from 'react-cookie'
+import apiUrl from "./APIConfig"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function App() {
 
-  const { token, setToken } = useContext(TokenContext)
-
-  useEffect(() => {
-    console.log("APP TOKEN:", token)
-  }, [token])
-
+  const [token, setToken, deleteToken] = useCookies(['mr-token'])
 
   const [movies, setMovies] = useState(["Movie 1", "Movie 2"])
   const [selectedMovie, setSelectedMovie] = useState(null)
   const [editedMovie, setEditedMovie] = useState(null)
 
+  // IF NO TOKEN THEN GO BACK TO LOGIN BC THEY ARE NOT AUTHENTICATED
+  useEffect(() => {
+    console.log(token)
+    if (!token['mr-token']) window.location.href = "/"
+  }, [token])
+  ////////////////////////////////////////////////////////////////
+
   const headers = {
     'Content-Type': 'application/json',
-    'Authorization': 'Token 18fa4b9ef0c796afe146aee11f382dd2f642144f'
+    'Authorization': `Token ${token['mr-token']}`
   }
 
   useEffect(() => {
     const makeAPICall = () => {
-      axios.get('http://127.0.0.1:8000/api/movies/',
+      axios.get(`${apiUrl}/api/movies/`,
         { headers: headers })
         .then((response) => {
           console.log(response.data)
@@ -38,6 +44,7 @@ function App() {
     }
     makeAPICall()
   }, [])
+
 
   const movieClicked = movie => {
     setSelectedMovie(movie)
@@ -78,10 +85,17 @@ function App() {
     })
     setMovies(newMovies)
   }
+
+  const logoutUser = () => {
+    console.log("logout")
+    deleteToken(['mr-token'])
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Movie Rater</h1>
+        <FontAwesomeIcon icon={faSignOutAlt} onClick={logoutUser} />
       </header>
       <div className='layout'>
         <div>

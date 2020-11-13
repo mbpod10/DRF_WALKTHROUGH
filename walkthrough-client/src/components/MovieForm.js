@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { API } from "../Api-Service"
-
+import { useCookies } from 'react-cookie'
 
 const MovieForm = (props) => {
 
+  const [token] = useCookies(['mr-token'])
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
 
@@ -17,7 +18,7 @@ const MovieForm = (props) => {
 
   const updateClicked = () => {
     console.log('updated')
-    API.updateMovie(props.movie.id, { description: description, title: title })
+    API.updateMovie(props.movie.id, { description: description, title: title }, token['mr-token'])
       .then((response) => {
         console.log(response.data)
         props.updateMovie(response.data)
@@ -29,7 +30,7 @@ const MovieForm = (props) => {
 
   const createClicked = () => {
     console.log('updated')
-    API.createMovie({ description: description, title: title })
+    API.createMovie({ description: description, title: title }, token['mr-token'])
       .then((response) => {
         console.log(response.data)
         props.movieCreated(response.data)
